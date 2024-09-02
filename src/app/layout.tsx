@@ -1,6 +1,9 @@
+import { Provider } from "jotai";
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import { Inter } from "next/font/google";
+
+import { Header } from "@/components/header";
 
 import "./globals.css";
 
@@ -21,14 +24,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        <Provider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Header />
+
+            {children}
+          </ThemeProvider>
+        </Provider>
       </body>
     </html>
   );
