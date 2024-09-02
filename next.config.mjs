@@ -5,6 +5,9 @@ const nextConfig = {
       fullUrl: true,
     },
   },
+  images: {
+    remotePatterns: [{ hostname: "cdn.waifu.im" }],
+  },
 };
 
 export default nextConfig;
