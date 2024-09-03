@@ -5,7 +5,7 @@ import { GitHubLogoIcon } from "@radix-ui/react-icons";
 
 export function Header() {
   return (
-    <header className="relative flex items-center justify-between bg-background/95 px-10 py-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 flex items-center justify-between bg-background/95 px-10 py-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <Link
         href="https://github.com/trecente"
         target="_blank"
