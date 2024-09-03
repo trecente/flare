@@ -14,12 +14,7 @@ export function ToggleTheme() {
   }, [theme, setTheme]);
 
   return (
-    <Button
-      onClick={handleToggle}
-      variant="outline"
-      size="icon"
-      aria-pressed={theme === "dark"}
-    >
+    <Button onClick={handleToggle} variant="outline" size="icon">
       <Sun
         strokeWidth={1.5}
         className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
