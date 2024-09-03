@@ -81,8 +81,22 @@
 @layer base {
   * {
     @apply border-border;
+    @apply scrollbar;
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .scrollbar::-webkit-scrollbar {
+    width: 5px;
+  }
+  .scrollbar::-webkit-scrollbar-track {
+    display: none;
+  }
+  .scrollbar::-webkit-scrollbar-thumb {
+    background-color: #888888;
+    border-radius: 4px;
   }
 }
