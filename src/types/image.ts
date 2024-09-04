@@ -4,6 +4,7 @@ export interface Image {
   id: number;
   image_url: string;
   source: string;
+  color_dominant: string[];
   rating: ImageRating;
   artist: Artist | null;
   characters: Character[];

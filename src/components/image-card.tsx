@@ -4,6 +4,7 @@ import { useAtom } from "jotai";
 import Image from "next/image";
 import { useState } from "react";
 
+import { ImageCardSkeleton } from "@/components/image-card-skeleton";
 import { Badge } from "@/components/ui/badge";
 
 import { cn } from "@/lib/utils";
@@ -16,27 +17,38 @@ type ImageCardProps = {
 };
 
 export function ImageCard({ image, priority }: ImageCardProps) {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isImageLoading, setIsImageLoading] = useState<boolean>(true);
+  const [isImageVisible, setIsImageVisible] = useState<boolean>(false);
   const [hideDetails] = useAtom(hideDetailsAtom);
+
+  const dominantColor = `rgb(${image.color_dominant.join(", ")})`;
 
   return (
     <div className="group relative cursor-pointer overflow-hidden rounded-lg shadow-md">
-      <div className="relative aspect-square">
+      <div
+        className="relative aspect-square"
+        style={{ backgroundColor: dominantColor }}
+      >
+        {isImageLoading && <ImageCardSkeleton />}
+
         <Image
           src={image.image_url}
           alt={`Image by ${image.artist?.name || "Unknown"}`}
           className={cn(
             "object-cover duration-300 ease-in-out group-hover:scale-110 group-hover:brightness-110",
-            isLoading ? "scale-110 blur-2xl" : "scale-100 blur-0"
+            isImageVisible ? "scale-100 blur-0" : "scale-110 opacity-0 blur-2xl"
           )}
           loading={priority ? "eager" : "lazy"}
           priority={priority}
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          onLoad={() => setIsLoading(false)}
+          onLoad={() => {
+            setIsImageLoading(false);
+            setIsImageVisible(true);
+          }}
           fill
         />
       </div>
-      {!hideDetails && !isLoading && (
+      {!hideDetails && isImageVisible && (
         <>
           <Badge
             variant={image.rating !== "safe" ? "destructive" : "secondary"}
