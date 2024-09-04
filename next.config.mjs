@@ -6,7 +6,7 @@ const nextConfig = {
     },
   },
   images: {
-    remotePatterns: [{ hostname: "cdn.waifu.im" }],
+    remotePatterns: [{ hostname: "cdn.nekosapi.com" }],
   },
 };
 
