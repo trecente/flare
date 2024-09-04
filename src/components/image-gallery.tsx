@@ -17,14 +17,14 @@ export function ImageGallery() {
   const {
     images,
     error,
-    isFetching,
+    isLoading,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
   } = useImages();
 
   if (error) return <ImageLoadError />;
-  if (isFetching) return <ImageGallerySkeleton />;
+  if (isLoading) return <ImageGallerySkeleton />;
   if (images.length === 0) return <NoImagesFound />;
 
   if (inView && hasNextPage && !isFetchingNextPage) {
