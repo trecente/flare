@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
 import { Providers } from "@/app/providers";
+import { BackToTop } from "@/components/back-to-top";
 import { Header } from "@/components/header";
 
 import "./globals.css";
@@ -26,6 +27,7 @@ export default function RootLayout({
         <Providers>
           <Header />
           {children}
+          <BackToTop />
         </Providers>
       </body>
     </html>
