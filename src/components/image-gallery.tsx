@@ -11,7 +11,7 @@ import { useImages } from "@/hooks/use-images";
 
 export function ImageGallery() {
   const { ref, inView } = useInView({
-    threshold: 0.5,
+    threshold: 0.1,
   });
 
   const {
