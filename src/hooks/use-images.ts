@@ -2,20 +2,28 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 
 import { getImages } from "@/services/image-service";
-import { isNsfwAtom } from "@/store/settings";
+import {
+  selectedArtistsAtom,
+  selectedCharactersAtom,
+  selectedTagsAtom,
+} from "@/store/filters";
 
 const ITEMS_PER_PAGE = 30;
 
 export function useImages() {
-  const [isNsfw] = useAtom(isNsfwAtom);
+  const [selectedTags] = useAtom(selectedTagsAtom);
+  const [selectedArtists] = useAtom(selectedArtistsAtom);
+  const [selectedCharacters] = useAtom(selectedCharactersAtom);
 
   const query = useInfiniteQuery({
-    queryKey: ["images", isNsfw],
+    queryKey: ["images", selectedTags, selectedArtists, selectedCharacters],
     queryFn: ({ pageParam = 0 }) =>
       getImages({
         offset: pageParam,
         limit: ITEMS_PER_PAGE,
-        isNsfw,
+        tags: selectedTags,
+        artists: selectedArtists,
+        characters: selectedCharacters,
       }),
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages) =>

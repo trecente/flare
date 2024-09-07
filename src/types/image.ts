@@ -44,3 +44,15 @@ export interface Character {
 export type ImageResponse = {
   items: Image[];
 };
+
+export type TagResponse = {
+  items: Tag[];
+};
+
+export type ArtistResponse = {
+  items: Artist[];
+};
+
+export type CharacterResponse = {
+  items: Character[];
+};
