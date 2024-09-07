@@ -1,4 +1,4 @@
-export type ImageRating = "explict" | "safe" | "suggestive" | "borderline";
+export type ImageRating = "explicit" | "safe" | "suggestive" | "borderline";
 
 export interface Image {
   id: number;
@@ -43,5 +43,4 @@ export interface Character {
 
 export type ImageResponse = {
   items: Image[];
-  count: number;
 };
