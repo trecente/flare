@@ -67,31 +67,13 @@ export async function getImages({
 }
 
 export async function getTags(): Promise<Tag[]> {
-  try {
-    const data: TagResponse = await fetchData("/images/tags");
-    return data.items;
-  } catch (error) {
-    console.error("Failed to fetch tags:", error);
-    throw error;
-  }
+  return fetchData<TagResponse>("/images/tags").then((data) => data.items);
 }
 
 export async function getArtists(): Promise<Artist[]> {
-  try {
-    const data: ArtistResponse = await fetchData("/artists");
-    return data.items;
-  } catch (error) {
-    console.error("Failed to fetch artists:", error);
-    throw error;
-  }
+  return fetchData<ArtistResponse>("/artists").then((data) => data.items);
 }
 
 export async function getCharacters(): Promise<Character[]> {
-  try {
-    const data: CharacterResponse = await fetchData("/characters");
-    return data.items;
-  } catch (error) {
-    console.error("Failed to fetch characters:", error);
-    throw error;
-  }
+  return fetchData<CharacterResponse>("/characters").then((data) => data.items);
 }
