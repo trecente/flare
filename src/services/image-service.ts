@@ -23,11 +23,13 @@ async function fetchData<T>(
   endpoint: string,
   params?: URLSearchParams
 ): Promise<T> {
-  const url = params
-    ? `${API_URL}${endpoint}?${params}`
-    : `${API_URL}${endpoint}`;
+  const url = new URL(`${API_URL}${endpoint}`);
 
-  const response = await fetch(url);
+  if (params) {
+    url.search = params.toString();
+  }
+
+  const response = await fetch(url.toString());
 
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
@@ -46,17 +48,17 @@ export async function getImages({
   artists,
   characters,
 }: ImageSearchParams): Promise<Image[]> {
+  const params = new URLSearchParams({
+    offset: offset.toString(),
+    limit: limit.toString(),
+  });
+
+  appendParams(params, "tag", tags);
+  appendParams(params, "artist", artists);
+  appendParams(params, "character", characters);
+
   try {
-    const params = new URLSearchParams({
-      offset: offset.toString(),
-      limit: limit.toString(),
-    });
-
-    appendParams(params, "tag", tags);
-    appendParams(params, "artist", artists);
-    appendParams(params, "character", characters);
-
-    const data: ImageResponse = await fetchData("/images", params);
+    const data = await fetchData<ImageResponse>("/images", params);
     return data.items;
   } catch (error) {
     console.error("Failed to fetch images:", error);
