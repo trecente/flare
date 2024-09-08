@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useAtom } from "jotai";
+import { useAtomValue } from "jotai";
 
 import { getImages } from "@/services/image-service";
 import {
@@ -11,19 +11,19 @@ import {
 const ITEMS_PER_PAGE = 30;
 
 export function useImages() {
-  const [selectedTags] = useAtom(selectedTagsAtom);
-  const [selectedArtists] = useAtom(selectedArtistsAtom);
-  const [selectedCharacters] = useAtom(selectedCharactersAtom);
+  const tags = useAtomValue(selectedTagsAtom);
+  const artists = useAtomValue(selectedArtistsAtom);
+  const characters = useAtomValue(selectedCharactersAtom);
 
   const query = useInfiniteQuery({
-    queryKey: ["images", selectedTags, selectedArtists, selectedCharacters],
+    queryKey: ["images", tags, artists, characters],
     queryFn: ({ pageParam = 0 }) =>
       getImages({
         offset: pageParam,
         limit: ITEMS_PER_PAGE,
-        tags: selectedTags,
-        artists: selectedArtists,
-        characters: selectedCharacters,
+        tags,
+        artists,
+        characters,
       }),
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages) =>
@@ -33,10 +33,8 @@ export function useImages() {
     refetchOnWindowFocus: false,
   });
 
-  const images = query.data?.pages.flatMap((page) => page) ?? [];
-
   return {
     ...query,
-    images,
+    images: query.data?.pages.flatMap((page) => page) ?? [],
   };
 }
