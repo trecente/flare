@@ -2,16 +2,13 @@
 
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
-import { useCallback } from "react";
 
 import { Button } from "@/components/ui/button";
 
 export function ToggleTheme() {
   const { theme, setTheme } = useTheme();
 
-  const handleToggle = useCallback(() => {
-    setTheme(theme === "dark" ? "light" : "dark");
-  }, [theme, setTheme]);
+  const handleToggle = () => setTheme(theme === "dark" ? "light" : "dark");
 
   return (
     <Button onClick={handleToggle} variant="outline" size="icon">
