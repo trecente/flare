@@ -35,7 +35,11 @@ export function ImageGallery() {
     <div className="space-y-6">
       <div className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         {images.map((image, idx) => (
-          <ImageCard key={image.id} image={image} priority={idx < 5} />
+          <ImageCard
+            key={`${image.id}-${idx}`}
+            image={image}
+            priority={idx < 5}
+          />
         ))}
       </div>
       {isFetchingNextPage && <ImageGallerySkeleton />}
