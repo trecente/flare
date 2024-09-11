@@ -10,7 +10,8 @@ export function Header() {
         href="https://github.com/trecente"
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="GitHub Repository"
+        aria-label="GitHub Profile"
+        className="transition-opacity hover:opacity-80"
       >
         <GitHubLogoIcon className="h-6 w-6" />
       </Link>
