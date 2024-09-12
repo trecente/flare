@@ -4,7 +4,7 @@ import { ImageFilter } from "@/components/image-filter";
 import { ImageGallery } from "@/components/image-gallery";
 
 export const metadata: Metadata = {
-  title: "Home",
+  title: "Explore Anime Artwork",
 };
 
 export default function Home() {
