@@ -1,5 +1,5 @@
 import { fetchData } from "@/lib/api";
-import { appendValuesToParams } from "@/lib/utils";
+import { appendValuesToParams, getNamesByIds } from "@/lib/utils";
 import { Artist, Character, Image, Tag } from "@/types/image";
 
 type ImageSearchParams = {
@@ -8,6 +8,7 @@ type ImageSearchParams = {
   tags: number[];
   artists: number[];
   characters: number[];
+  ratings: number[];
 };
 
 export const getImages = ({
@@ -16,6 +17,7 @@ export const getImages = ({
   tags,
   artists,
   characters,
+  ratings,
 }: ImageSearchParams) => {
   const params = new URLSearchParams({
     offset: offset.toString(),
@@ -26,6 +28,7 @@ export const getImages = ({
     tag: tags,
     artist: artists,
     character: characters,
+    rating: getNamesByIds(ratings),
   };
 
   Object.entries(filterParams).forEach(([key, values]) =>

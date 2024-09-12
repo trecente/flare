@@ -23,6 +23,7 @@ export function useImages() {
         tags: selectedFilters.tags ?? [],
         artists: selectedFilters.artists ?? [],
         characters: selectedFilters.characters ?? [],
+        ratings: selectedFilters.age_ratings ?? [],
       }),
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages) =>

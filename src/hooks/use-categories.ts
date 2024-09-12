@@ -4,6 +4,7 @@ import { useQueries } from "@tanstack/react-query";
 import { useSetAtom } from "jotai";
 import { useCallback, useEffect, useMemo } from "react";
 
+import { ageRatings } from "@/constants/age-rating";
 import { createCategory } from "@/lib/utils";
 import { getArtists, getCharacters, getTags } from "@/services/image-service";
 import { categoriesAtom } from "@/store/filters";
@@ -37,6 +38,7 @@ export function useCategories() {
       createCategory("Tags", "tags", mapToOptions(tags)),
       createCategory("Artists", "artists", mapToOptions(artists)),
       createCategory("Characters", "characters", mapToOptions(characters)),
+      createCategory("Age Ratings", "age_ratings", ageRatings),
     ],
     [tags, artists, characters, mapToOptions]
   );

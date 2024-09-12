@@ -1,4 +1,4 @@
-export type FilterType = "tags" | "artists" | "characters";
+export type FilterType = "tags" | "artists" | "characters" | "age_ratings";
 
 export type FilterCategory = {
   name: string;
