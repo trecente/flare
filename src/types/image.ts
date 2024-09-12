@@ -1,4 +1,5 @@
 export type ImageRating = "explicit" | "safe" | "suggestive" | "borderline";
+export type ImageFilterOption = Tag | Artist | Character;
 
 export interface Image {
   id: number;
@@ -40,19 +41,3 @@ export interface Character {
   nationality: string;
   occupations: string[];
 }
-
-export type ImageResponse = {
-  items: Image[];
-};
-
-export type TagResponse = {
-  items: Tag[];
-};
-
-export type ArtistResponse = {
-  items: Artist[];
-};
-
-export type CharacterResponse = {
-  items: Character[];
-};

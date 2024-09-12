@@ -1,7 +1,21 @@
-import { PrimitiveAtom } from "jotai";
+export type FilterType = "tags" | "artists" | "characters";
 
-export type FilterDropdownOption = {
+export type FilterCategory = {
   name: string;
-  options: { id: number; name: string }[];
-  atom: PrimitiveAtom<number[]>;
+  type: FilterType;
+  options: FilterOption[];
+};
+
+export type FilterOption = {
+  id: number;
+  name: string;
+};
+
+export type SelectedFilters = {
+  [K in FilterType]: number[];
+};
+
+export type FilterState = {
+  categories: FilterCategory[];
+  selectedFilters: SelectedFilters;
 };

@@ -1,48 +1,21 @@
 "use client";
 
+import { useAtomValue } from "jotai";
 import { Settings } from "lucide-react";
-import { useMemo } from "react";
 
 import { FilterDropdown } from "@/components/filter-dropdown";
 import { Button } from "@/components/ui/button";
 
-import { useFilterData } from "@/hooks/use-filter-data";
-import {
-  selectedArtistsAtom,
-  selectedCharactersAtom,
-  selectedTagsAtom,
-} from "@/store/filters";
-import { FilterDropdownOption } from "@/types/filter";
+import { categoriesAtom } from "@/store/filters";
 
 export function ImageFilter() {
-  const { tags, artists, characters } = useFilterData();
-
-  const filterDropdownOptions = useMemo<FilterDropdownOption[]>(
-    () => [
-      {
-        name: "Tags",
-        options: tags.map(({ id, name }) => ({ id, name })),
-        atom: selectedTagsAtom,
-      },
-      {
-        name: "Artists",
-        options: artists.map(({ id, name }) => ({ id, name })),
-        atom: selectedArtistsAtom,
-      },
-      {
-        name: "Characters",
-        options: characters.map(({ id, name }) => ({ id, name })),
-        atom: selectedCharactersAtom,
-      },
-    ],
-    [tags, artists, characters]
-  );
+  const categories = useAtomValue(categoriesAtom);
 
   return (
     <div className="mb-4 flex items-center justify-between">
       <div className="flex flex-wrap gap-4">
-        {filterDropdownOptions.map((option) => (
-          <FilterDropdown key={option.name} {...option} />
+        {categories.map((category) => (
+          <FilterDropdown key={category.type} category={category} />
         ))}
       </div>
 

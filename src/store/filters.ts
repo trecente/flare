@@ -1,12 +1,22 @@
+import { FilterCategory, FilterState, SelectedFilters } from "@/types/filter";
 import { atom } from "jotai";
 
-import { Artist, Character, Tag } from "@/types/image";
+export const initialFilterState: FilterState = {
+  categories: [
+    { name: "Tags", type: "tags", options: [] },
+    { name: "Artists", type: "artists", options: [] },
+    { name: "Characters", type: "characters", options: [] },
+  ],
+  selectedFilters: {
+    tags: [],
+    artists: [],
+    characters: [],
+  },
+};
 
-export const tagsAtom = atom<Tag[]>([]);
-export const selectedTagsAtom = atom<number[]>([]);
-
-export const artistsAtom = atom<Artist[]>([]);
-export const selectedArtistsAtom = atom<number[]>([]);
-
-export const charactersAtom = atom<Character[]>([]);
-export const selectedCharactersAtom = atom<number[]>([]);
+export const categoriesAtom = atom<FilterCategory[]>(
+  initialFilterState.categories
+);
+export const selectedFiltersAtom = atom<SelectedFilters>(
+  initialFilterState.selectedFilters
+);

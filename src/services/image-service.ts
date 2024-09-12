@@ -1,15 +1,6 @@
-import {
-  Artist,
-  ArtistResponse,
-  Character,
-  CharacterResponse,
-  Image,
-  ImageResponse,
-  Tag,
-  TagResponse,
-} from "@/types/image";
-
-const API_URL = "https://api.nekosapi.com/v3";
+import { fetchData } from "@/lib/api";
+import { appendValuesToParams } from "@/lib/utils";
+import { Artist, Character, Image, Tag } from "@/types/image";
 
 type ImageSearchParams = {
   offset: number;
@@ -19,61 +10,31 @@ type ImageSearchParams = {
   characters: number[];
 };
 
-async function fetchData<T>(
-  endpoint: string,
-  params?: URLSearchParams
-): Promise<T> {
-  const url = new URL(`${API_URL}${endpoint}`);
-
-  if (params) {
-    url.search = params.toString();
-  }
-
-  const response = await fetch(url.toString());
-
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-
-  return response.json();
-}
-
-const appendParams = (params: URLSearchParams, key: string, values: number[]) =>
-  values.forEach((value) => params.append(key, value.toString()));
-
-export async function getImages({
+export const getImages = ({
   offset,
   limit,
   tags,
   artists,
   characters,
-}: ImageSearchParams): Promise<Image[]> {
+}: ImageSearchParams) => {
   const params = new URLSearchParams({
     offset: offset.toString(),
     limit: limit.toString(),
   });
 
-  appendParams(params, "tag", tags);
-  appendParams(params, "artist", artists);
-  appendParams(params, "character", characters);
+  const filterParams = {
+    tag: tags,
+    artist: artists,
+    character: characters,
+  };
 
-  try {
-    const data = await fetchData<ImageResponse>("/images", params);
-    return data.items;
-  } catch (error) {
-    console.error("Failed to fetch images:", error);
-    throw error;
-  }
-}
+  Object.entries(filterParams).forEach(([key, values]) =>
+    appendValuesToParams(params, key, values)
+  );
 
-export async function getTags(): Promise<Tag[]> {
-  return fetchData<TagResponse>("/images/tags").then((data) => data.items);
-}
+  return fetchData<Image[]>("/images", params);
+};
 
-export async function getArtists(): Promise<Artist[]> {
-  return fetchData<ArtistResponse>("/artists").then((data) => data.items);
-}
-
-export async function getCharacters(): Promise<Character[]> {
-  return fetchData<CharacterResponse>("/characters").then((data) => data.items);
-}
+export const getTags = () => fetchData<Tag[]>("/images/tags");
+export const getArtists = () => fetchData<Artist[]>("/artists");
+export const getCharacters = () => fetchData<Character[]>("/characters");
