@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
-import { ImageFilter } from "@/components/image-filter";
 import { ImageGallery } from "@/components/image-gallery";
+import { RatingsContainer } from "@/components/ratings-container";
 
 export const metadata: Metadata = {
   title: "Explore Anime Artwork",
@@ -9,8 +9,8 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <div className="my-5 grid px-10">
-      <ImageFilter />
+    <div className="grid px-4 py-5 sm:px-6 lg:px-10">
+      <RatingsContainer />
       <ImageGallery />
     </div>
   );
