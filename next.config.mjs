@@ -6,7 +6,7 @@ const nextConfig = {
     },
   },
   images: {
-    remotePatterns: [{ hostname: "cdn.nekosapi.com" }],
+    remotePatterns: [{ hostname: "s3.nyeki.dev" }],
   },
 };
 
