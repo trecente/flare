@@ -1,43 +1,43 @@
-import { fetchData } from "@/lib/api";
-import { appendValuesToParams, getNamesByIds } from "@/lib/utils";
-import { Artist, Character, Image, Tag } from "@/types/image";
+import { AgeRating } from "@/constants";
+import { Image, ImageError, ImageResponse } from "@/types";
+import { toast } from "sonner";
 
 type ImageSearchParams = {
   offset: number;
   limit: number;
-  tags: number[];
-  artists: number[];
-  characters: number[];
-  ratings: number[];
+  ratings: AgeRating[];
 };
 
-export const getImages = ({
-  offset,
-  limit,
-  tags,
-  artists,
-  characters,
-  ratings,
-}: ImageSearchParams) => {
-  const params = new URLSearchParams({
-    offset: offset.toString(),
-    limit: limit.toString(),
+const isError = (data: ImageResponse | ImageError): data is ImageError => {
+  return "error" in data;
+};
+
+export const getImages = async (
+  params: ImageSearchParams
+): Promise<Image[]> => {
+  const { ratings, ...rest } = params;
+  const searchParams = new URLSearchParams();
+
+  Object.entries(rest).forEach(([key, value]) => {
+    searchParams.append(key, value.toString());
   });
 
-  const filterParams = {
-    tag: tags,
-    artist: artists,
-    character: characters,
-    rating: getNamesByIds(ratings),
-  };
+  ratings.forEach((rating) => searchParams.append("rating", rating));
 
-  Object.entries(filterParams).forEach(([key, values]) =>
-    appendValuesToParams(params, key, values)
-  );
+  try {
+    const response = await fetch(`/api/proxy?${searchParams.toString()}`);
+    const data = (await response.json()) as ImageResponse | ImageError;
 
-  return fetchData<Image[]>("/images", params);
+    if (isError(data)) {
+      throw new Error(data.error);
+    }
+
+    return data.items;
+  } catch (error) {
+    console.error("[Image Service] Error:", error);
+    toast.error(
+      error instanceof Error ? error.message : "An unexpected error occurred"
+    );
+    throw error;
+  }
 };
-
-export const getTags = () => fetchData<Tag[]>("/images/tags");
-export const getArtists = () => fetchData<Artist[]>("/artists");
-export const getCharacters = () => fetchData<Character[]>("/characters");
